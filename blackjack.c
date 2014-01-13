@@ -29,7 +29,7 @@ int main(void)
 	deckMake(deck);
 
 	//Shuffles the deck
-	deckShuffle(deck);
+	//deckShuffle(deck);
 
 	//Deck test
 	for(i = 0; i < DECKSIZE; i++)
@@ -88,30 +88,27 @@ void deckMake(card *pointer)
 	//Generates the suits
 	for(i = 0, j = 0; j < 4; i++)
 	{
-		strcpy(pointer[i].suit, suit[j]);
-
-		if((i + 1) % 13)
+		if(i % 13 == 0)
 		{
 			j++;
 		}
+
+		strcpy(pointer[i].suit, suit[j]);
 	}
 
 	//Generates the ranks and values
 	for(i = 0, j = 0; i < DECKSIZE; i++, j++)
 	{
+		if(i % 13 == 0)
+		{
+			j = 0;
+		}
+
 		strcpy(pointer[i].rank, rank[j]);
 
 		pointer[i].value = value[j];
 
-		if((i + 1) % 13)
-		{
-			j = 0;
-		}
-	}
-
-	//Trims the '\n' from all the ranks and suits
-	for(i = 0; i < DECKSIZE; i++)
-	{
+		//Trims the '\n' from fgets
 		pointer[i] = newLineTrim(pointer[i]);
 	}
 	
@@ -124,7 +121,7 @@ card newLineTrim(card cardToTrim)
 	int newLineTrim;
 
 	newLineTrim = strlen(cardToTrim.rank);
-	newLineTrim -= 2;
+	newLineTrim --;
  	cardToTrim.rank[newLineTrim] = '\0';
 
 	newLineTrim = strlen(cardToTrim.suit);
