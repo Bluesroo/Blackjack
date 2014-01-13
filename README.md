@@ -1,8 +1,10 @@
 Blackjack
 =========
 
-My first attempt at a serious project... Things to implement for the next version, when I decide to try again:
-1. Use functions and pointers
-2. Figure out what to do when the deck runs out (how to reshuffle?)
-3. Use descriptive variable names
-4. Learn how to read/ write to a file (variables, the deck, counters?)
+I'm reviving this as a fun project. I've kept the old version for posterity.
+
+Things to do better:
+1. Make healthy use of functions (and pointers) and header files in order to keep main clean.
+2. Use better variable names.
+3. Deal with the deck running out.
+4. Use file i/o in order to keep the code base smaller (no hard-coding the deck).
