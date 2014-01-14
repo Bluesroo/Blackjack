@@ -4,7 +4,7 @@
 #include <string.h>
 
 #define DECKSIZE 52
-#define RANKSIZE 6
+#define RANKSIZE 15
 #define SUITSIZE 13
 
 //Card data type
@@ -29,7 +29,7 @@ int main(void)
 	deckMake(deck);
 
 	//Shuffles the deck
-	//deckShuffle(deck);
+	deckShuffle(deck);
 
 	//Deck test
 	for(i = 0; i < DECKSIZE; i++)
@@ -54,7 +54,7 @@ int main(void)
 //Generates the deck
 void deckMake(card *pointer)
 {
-	int i, j, value[13];
+	int i, j, k, value[13];
 	char rank[13][RANKSIZE], suit[4][SUITSIZE];
 	FILE *valueFile, *suitFile, *rankFile;
 
@@ -62,10 +62,11 @@ void deckMake(card *pointer)
 	rankFile = fopen("rank", "r");
 	suitFile = fopen("suit", "r");
 
-	//Fills the rank array with the different ranks	
+	//Fills the rank array with the different ranks and values
 	for(i = 0; i < 13; i++)
 	{
 		fgets(rank[i], RANKSIZE, rankFile);
+		fscanf(valueFile, "%d", &value[i]);
 	}
 
 	//Fills the suit array with the different suits	
@@ -74,39 +75,26 @@ void deckMake(card *pointer)
 		fgets(suit[i], SUITSIZE, suitFile);
 	}
 
-	//Fills the value array with the different values	
-	for(i = 0; i < 10; i++)
-	{
-		fscanf(valueFile, "%d", &value[i]);
-	}
-
 	fclose(valueFile);
 	fclose(rankFile);
 	fclose(suitFile);
 
 	//Does the actual deck generation
-	//Generates the suits
-	for(i = 0, j = 0; j < 4; i++)
-	{
-		if(i % 13 == 0)
-		{
-			j++;
-		}
-
-		strcpy(pointer[i].suit, suit[j]);
-	}
-
-	//Generates the ranks and values
-	for(i = 0, j = 0; i < DECKSIZE; i++, j++)
+	for(i = 0, j = 0, k = 0; i < DECKSIZE; i++, j++)
 	{
 		if(i % 13 == 0)
 		{
 			j = 0;
 		}
-
+		
 		strcpy(pointer[i].rank, rank[j]);
-
+		strcpy(pointer[i].suit, suit[k]);
 		pointer[i].value = value[j];
+
+		if((i + 1) % 13 == 0)
+		{
+			k++;
+		}
 
 		//Trims the '\n' from fgets
 		pointer[i] = newLineTrim(pointer[i]);
@@ -121,7 +109,7 @@ card newLineTrim(card cardToTrim)
 	int newLineTrim;
 
 	newLineTrim = strlen(cardToTrim.rank);
-	newLineTrim --;
+	newLineTrim--;
  	cardToTrim.rank[newLineTrim] = '\0';
 
 	newLineTrim = strlen(cardToTrim.suit);
