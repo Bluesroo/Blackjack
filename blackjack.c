@@ -3,19 +3,15 @@
 
 int main(void)
 {
+	//Creates the deck variable
 	card deck[DECKSIZE];
 	
-	printf("Making the deck...\n");
 	//Generates the deck
 	deckMake(deck);
-	printf("Done!\n");
 	
-	printf("Shuffling...\n");
 	//Shuffles the deck
 	deckShuffle(deck);
-	printf("Done!\n");
 
-	printf("Time to play!\n");
 	//deal
 	//hitOrStay
 	//dealTurn
