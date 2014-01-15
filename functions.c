@@ -78,9 +78,11 @@ void deckShuffle(card *deck)
 	int i = 0, randomCardPlace;
 	card temp;
 
+	//Seeding rand
 	srand(time(NULL));
 
-	while (i < DECKSIZE)
+	//Does the actual shuffling
+	while(i < DECKSIZE)
 	{
 		randomCardPlace = rand() %(DECKSIZE - 1);
 		
@@ -92,4 +94,49 @@ void deckShuffle(card *deck)
 	}
 
 	return;
+}
+
+//Deals the cards
+int deal(deck)
+{
+	int dealer = 0;
+	card handDealer[12], handPlayer[12];
+
+	//Deals the first 2 cards
+	for(i = 0; i < 2; i++)
+	{
+		handPlayer[countPlayer] = deck[dealer];
+		dealer++;
+		countPlayer++;
+	
+		handDealer[countDealer] = deck[dealer];
+		dealer++;
+		countDealer++;
+	}
+
+	printf("Your hand: %s %s and %s %s.\n", handPlayer.rank[0], handPlayer[0].suit, handPlayer[1].rank, handPlayer[1].suit)
+
+	if(handPlayer[0].value + handPlayer[1].value == 21)
+	{
+		printf("\nYou have 21! You win this hand!\n");
+	}
+	else
+	{
+		//Hitting or staying
+		do
+		{
+			printf("Would you like to hit or stay? (y/n)\n");
+			scanf("%c", &hitOrStay);
+		} while (hitOrStay != y || hitOrStay != n);
+
+		if(hitOrStay == n);
+		{
+			printf("\nNow the dealer's turn\n");
+
+			dealerTurn();
+		}
+		else 
+		{
+		}
+	}
 }

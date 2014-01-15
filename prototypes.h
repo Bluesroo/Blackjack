@@ -14,3 +14,7 @@ typedef struct
 void deckMake(card *);
 card newLineTrim(card);
 void deckShuffle(card *);
+int deal(card *);
+int playerTurn(card *, card *, int);
+int dealerTurn(card *, card *, int);
+void reshuffle(card *, int);

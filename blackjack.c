@@ -3,6 +3,7 @@
 
 int main(void)
 {
+	int done;
 	//Creates the deck variable
 	card deck[DECKSIZE];
 	
@@ -12,12 +13,9 @@ int main(void)
 	//Shuffles the deck
 	deckShuffle(deck);
 
-	//deal
-	//hitOrStay
-	//dealTurn
-	//winner
-	//deal
-	//check for end of deck
+	//Deals until the player doesn't want a rematch
+	while(done != 1)
+		done = deal(deck);
 
 	return 0;
 }
