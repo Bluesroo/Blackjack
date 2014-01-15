@@ -98,8 +98,11 @@ void deckShuffle(card *deck)
 //Deals the cards
 int deal(deck)
 {
-	int dealer = 0, playerScore, dealerScore, countPlayer = 0, countDealer = 0;
+	int dealer = 0, playerScore, dealerScore, countPlayer = 0, countDealer = 0, again;
+	int *dealerPointer
 	card handDealer[12], handPlayer[12];
+	
+	dealerPointer = &dealer;
 
 	//Deals the first 2 cards
 	for(i = 0; i < 2; i++)
@@ -113,14 +116,29 @@ int deal(deck)
 		countDealer++;
 	}
 
-	playerScore = playerTurn(deck, handPlayer, countPlayer, dealer);
+	printf("The dealer's face up card: %s %s.\n", handDealer[1].rank, handDealer[1].suit);
+	
+	playerScore = playerTurn(deck, handPlayer, countPlayer, dealerPointer);
+	
+	if(playerScore > 21)
+	{
+		again = rematch(playerScore, dealerScore);
 
-	dealerScore = dealerTurn(deck, handDealer, countDealer, dealer);
+		return again;
+	}
+	else
+		dealerScore = dealerTurn(deck, handDealer, countDealer, dealerPointer);
+	
+	again = rematch(playerScore, dealerScore);
+
+	return again;
 }
 
-//Does the player's turn
-int playerTurn(card deck, card hand, int size, int dealer)
+//Deals with the player's turn
+int playerTurn(card deck, card hand, int size, int *dealer)
 {
+	int playerScore;
+
 	printf("Your hand: %s %s and %s %s.\n", hand.rank[0], hand[0].suit, hand[1].rank, hand[1].suit)
 
 	while(1)
@@ -128,24 +146,42 @@ int playerTurn(card deck, card hand, int size, int dealer)
 		if(hitOrStay() == s);
 		{
 			printf("\nNow the it's dealer's turn.\n");
-	
 			
-
 			return score(hand, size);
 		}
 		else
 		{
-			hand[count] = deck[dealer];
+			hand[count] = deck[*dealer];
 
 			printf("Your next card is the %s %s.\n", hand[count].rank, hand[count].suit);
 		
 			count++;
-			dealer++;
-
-			if(bust() == 1)
-				return 1;
+			*dealer++;
 		}
+
+		playerScore = score(hand, size);
+
+		//If there is a bust
+		if(playerScore > 21)
+			return playerScore;
 	}
+}
+
+//Dealer's turn
+int dealerTurn(card deck, card hand, int size, int *dealer)
+{
+	int dealerScore;
+	
+	dealerScore = score(hand, size);
+	
+	while(dealerScore < 17)
+	{
+		hand[size] = deck[*dealer];
+		
+		dealerScore = score(hand, size);
+	}
+
+	return dealerScore(hand, size);
 }
 
 //Hitting or staying
@@ -157,22 +193,57 @@ char hitOrStay(void)
 	{
 		printf("Would you like to hit or stay? (h/s)\n");
 		scanf("%c", &hitOrStay);
-	} while (hitOrStay != h || hitOrStay != s);
+	} while (hitOrStay != 'h' || hitOrStay != 's');
 
 	return hitOrStay;
-}
-
-//Dealer's turn
-int playerTurn(card deck, card hand, int size, int dealer)
-{
-	
-
-	return score(hand, size);
 }
 
 //Score calculator
 int score(card hand, int size)
 {
+	int i, score = 0, aceCount = 0;
+
+	for(i = 0; i < size; i++)
+	{
+		score = score + hand[i].value;
+		if(hand[i].value == 11)
+			aceCount++;
+	}
+
+	while(score > 21 && aceCount > 0)
+	{
+		score -= 10;
+		aceCount--;
+	}
 
 	return score;
+}
+
+//Shows the final score for the hand and asks for a rematch
+int rematch(int playerScore, int dealerScore)
+{
+	char again;
+	
+	if(playerScore > 21)
+		printf("You bust with %d!\n", playerScore);
+	else if(playerScore == 21)
+		printf("You got a Blackjack!\n");
+	else
+		printf("Your hand total was %d.\n", playerScore);
+
+	if(dealerScore > 21)
+		printf("The dealer bust with %d!\n", dealerScore);
+	else if(playerScore == 21)
+		printf("The got a Blackjack!\n");
+	else
+		printf("The dealer's hand total was %d.\n", dealerScore);	
+
+	printf("Would you like to play again?\n");
+
+	do
+	{
+		scanf("%c", &again);
+	} while (again != 'y' || again != 'n'
+
+	return again;
 }
