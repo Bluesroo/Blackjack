@@ -15,7 +15,7 @@ void deckMake(card *pointer)
 	rankFile = fopen("rank", "r");
 	suitFile = fopen("suit", "r");
 
-	//Fills the rank array with the different ranks and values
+	//Fills the rank and value arrays with the different ranks and values
 	for(i = 0; i < 13; i++)
 	{
 		fgets(rank[i], RANKSIZE, rankFile);
@@ -78,7 +78,6 @@ void deckShuffle(card *deck)
 	int i = 0, randomCardPlace;
 	card temp;
 
-	//Seeding rand
 	srand(time(NULL));
 
 	//Does the actual shuffling
@@ -99,7 +98,7 @@ void deckShuffle(card *deck)
 //Deals the cards
 int deal(deck)
 {
-	int dealer = 0;
+	int dealer = 0, playerScore, dealerScore, countPlayer = 0, countDealer = 0;
 	card handDealer[12], handPlayer[12];
 
 	//Deals the first 2 cards
@@ -114,29 +113,66 @@ int deal(deck)
 		countDealer++;
 	}
 
-	printf("Your hand: %s %s and %s %s.\n", handPlayer.rank[0], handPlayer[0].suit, handPlayer[1].rank, handPlayer[1].suit)
+	playerScore = playerTurn(deck, handPlayer, countPlayer, dealer);
 
-	if(handPlayer[0].value + handPlayer[1].value == 21)
+	dealerScore = dealerTurn(deck, handDealer, countDealer, dealer);
+}
+
+//Does the player's turn
+int playerTurn(card deck, card hand, int size, int dealer)
+{
+	printf("Your hand: %s %s and %s %s.\n", hand.rank[0], hand[0].suit, hand[1].rank, hand[1].suit)
+
+	while(1)
 	{
-		printf("\nYou have 21! You win this hand!\n");
+		if(hitOrStay() == s);
+		{
+			printf("\nNow the it's dealer's turn.\n");
+	
+			
+
+			return score(hand, size);
+		}
+		else
+		{
+			hand[count] = deck[dealer];
+
+			printf("Your next card is the %s %s.\n", hand[count].rank, hand[count].suit);
+		
+			count++;
+			dealer++;
+
+			if(bust() == 1)
+				return 1;
+		}
 	}
-	else
+}
+
+//Hitting or staying
+char hitOrStay(void)
+{
+	char hitOrStay;
+
+	do
 	{
-		//Hitting or staying
-		do
-		{
-			printf("Would you like to hit or stay? (y/n)\n");
-			scanf("%c", &hitOrStay);
-		} while (hitOrStay != y || hitOrStay != n);
+		printf("Would you like to hit or stay? (h/s)\n");
+		scanf("%c", &hitOrStay);
+	} while (hitOrStay != h || hitOrStay != s);
 
-		if(hitOrStay == n);
-		{
-			printf("\nNow the dealer's turn\n");
+	return hitOrStay;
+}
 
-			dealerTurn();
-		}
-		else 
-		{
-		}
-	}
+//Dealer's turn
+int playerTurn(card deck, card hand, int size, int dealer)
+{
+	
+
+	return score(hand, size);
+}
+
+//Score calculator
+int score(card hand, int size)
+{
+
+	return score;
 }
