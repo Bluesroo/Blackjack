@@ -96,10 +96,10 @@ void deckShuffle(card *deck)
 }
 
 //Deals the cards
-int deal(deck)
+int deal(card *deck)
 {
-	int dealer = 0, playerScore, dealerScore, countPlayer = 0, countDealer = 0, again;
-	int *dealerPointer
+	int dealer = 0, playerScore, dealerScore, countPlayer = 0, countDealer = 0, again, i;
+	int *dealerPointer;
 	card handDealer[12], handPlayer[12];
 	
 	dealerPointer = &dealer;
@@ -135,15 +135,15 @@ int deal(deck)
 }
 
 //Deals with the player's turn
-int playerTurn(card deck, card hand, int size, int *dealer)
+int playerTurn(card *deck, card *hand, int size, int *dealer)
 {
 	int playerScore;
 
-	printf("Your hand: %s %s and %s %s.\n", hand.rank[0], hand[0].suit, hand[1].rank, hand[1].suit)
+	printf("Your hand: %s %s and %s %s.\n", hand[0].rank, hand[0].suit, hand[1].rank, hand[1].suit);
 
 	while(1)
 	{
-		if(hitOrStay() == s);
+		if(hitOrStay() == 's')
 		{
 			printf("\nNow the it's dealer's turn.\n");
 			
@@ -151,11 +151,11 @@ int playerTurn(card deck, card hand, int size, int *dealer)
 		}
 		else
 		{
-			hand[count] = deck[*dealer];
+			hand[size] = deck[*dealer];
 
-			printf("Your next card is the %s %s.\n", hand[count].rank, hand[count].suit);
+			printf("Your next card is the %s %s.\n", hand[size].rank, hand[size].suit);
 		
-			count++;
+			size++;
 			*dealer++;
 		}
 
@@ -168,7 +168,7 @@ int playerTurn(card deck, card hand, int size, int *dealer)
 }
 
 //Dealer's turn
-int dealerTurn(card deck, card hand, int size, int *dealer)
+int dealerTurn(card *deck, card *hand, int size, int *dealer)
 {
 	int dealerScore;
 	
@@ -181,7 +181,7 @@ int dealerTurn(card deck, card hand, int size, int *dealer)
 		dealerScore = score(hand, size);
 	}
 
-	return dealerScore(hand, size);
+	return dealerScore;
 }
 
 //Hitting or staying
@@ -199,7 +199,7 @@ char hitOrStay(void)
 }
 
 //Score calculator
-int score(card hand, int size)
+int score(card *hand, int size)
 {
 	int i, score = 0, aceCount = 0;
 
@@ -243,7 +243,7 @@ int rematch(int playerScore, int dealerScore)
 	do
 	{
 		scanf("%c", &again);
-	} while (again != 'y' || again != 'n'
+	} while (again != 'y' || again != 'n');
 
 	return again;
 }
