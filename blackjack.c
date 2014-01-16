@@ -3,7 +3,8 @@
 
 int main(void)
 {
-	int done, dealer = 0, *dealerPointer;
+	int dealer = 0, *dealerPointer;
+	char done;
 	dealerPointer = &dealer;
 
 	//Creates the deck variable
@@ -16,7 +17,7 @@ int main(void)
 	deckShuffle(deck);
 
 	//Deals until the player doesn't want a rematch
-	while(done != 1)
+	while(done != 'n')
 		done = deal(deck, dealerPointer);
 
 	return 0;
