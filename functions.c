@@ -5,7 +5,7 @@
 #include "prototypes.h"
 
 //Generates the deck
-void deckMake(card *pointer)
+void deckMake(CARD *deck)
 {
 	int i, j, k, value[13];
 	char rank[13][RANKSIZE], suit[4][SUITSIZE];
@@ -18,15 +18,13 @@ void deckMake(card *pointer)
 	//Fills the rank and value arrays with the different ranks and values
 	for(i = 0; i < 13; i++)
 	{
-		fgets(rank[i], RANKSIZE, rankFile);
+		fscanf(rankFile, "%s", rank[i]);
 		fscanf(valueFile, "%d", &value[i]);
 	}
 
 	//Fills the suit array with the different suits	
 	for(i = 0; i < 4; i++)
-	{
 		fgets(suit[i], SUITSIZE, suitFile);
-	}
 
 	fclose(valueFile);
 	fclose(rankFile);
@@ -36,34 +34,26 @@ void deckMake(card *pointer)
 	for(i = 0, j = 0, k = 0; i < DECKSIZE; i++, j++)
 	{
 		if(i % 13 == 0)
-		{
 			j = 0;
-		}
 		
-		strcpy(pointer[i].rank, rank[j]);
-		strcpy(pointer[i].suit, suit[k]);
-		pointer[i].value = value[j];
+		strcpy(deck[i].rank, rank[j]);
+		strcpy(deck[i].suit, suit[k]);
+		deck[i].value = value[j];
 
 		if((i + 1) % 13 == 0)
-		{
 			k++;
-		}
-
+		
 		//Trims the '\n' from fgets
-		pointer[i] = newLineTrim(pointer[i]);
+		deck[i] = newLineTrim(deck[i]);
 	}
-	
+
 	return;
 }
 
 //Takes the '/n' off of the end from fgets
-card newLineTrim(card cardToTrim)
+CARD newLineTrim(CARD cardToTrim)
 {
 	int newLineTrim;
-
-	newLineTrim = strlen(cardToTrim.rank);
-	newLineTrim--;
- 	cardToTrim.rank[newLineTrim] = '\0';
 
 	newLineTrim = strlen(cardToTrim.suit);
 	newLineTrim--;
@@ -73,10 +63,10 @@ card newLineTrim(card cardToTrim)
 }
 
 //Shuffles the deck
-void deckShuffle(card *deck)
+void deckShuffle(CARD *deck)
 {
 	int i = 0, randomCardPlace;
-	card temp;
+	CARD temp;
 
 	srand(time(NULL));
 
@@ -95,47 +85,46 @@ void deckShuffle(card *deck)
 	return;
 }
 
-//Deals the cards
-int deal(card *deck)
+//Deals the CARDs
+int deal(CARD *deck, int *dealer)
 {
-	int dealer = 0, playerScore, dealerScore, countPlayer = 0, countDealer = 0, again, i;
-	int *dealerPointer;
-	card handDealer[12], handPlayer[12];
-	
-	dealerPointer = &dealer;
+	int  playerScore, dealerScore, countPlayer = 0, countDealer = 0, again, i;
+	CARD handDealer[12], handPlayer[12];
 
-	//Deals the first 2 cards
+	//Deals the first 2 CARDs
 	for(i = 0; i < 2; i++)
 	{
-		handPlayer[countPlayer] = deck[dealer];
-		dealer++;
+		handPlayer[i] = deck[*dealer];
+
+		*dealer += 1;
 		countPlayer++;
-	
-		handDealer[countDealer] = deck[dealer];
-		dealer++;
+
+		handDealer[i] = deck[*dealer];
+			
+		*dealer += 1;
 		countDealer++;
 	}
 
-	printf("The dealer's face up card: %s %s.\n", handDealer[1].rank, handDealer[1].suit);
+	printf("\nThe dealer's face up card: %s %s.\n", handDealer[1].rank, handDealer[1].suit);
 	
-	playerScore = playerTurn(deck, handPlayer, countPlayer, dealerPointer);
+	//Player's turn
+	playerScore = playerTurn(deck, handPlayer, countPlayer, dealer);
 	
 	if(playerScore > 21)
 	{
-		again = rematch(playerScore, dealerScore);
+		dealerScore = score(handDealer, countDealer);
 
-		return again;
+		return rematch(playerScore, dealerScore);
 	}
+	//Dealer's turn
 	else
-		dealerScore = dealerTurn(deck, handDealer, countDealer, dealerPointer);
+		dealerScore = dealerTurn(deck, handDealer, countDealer, dealer);
 	
-	again = rematch(playerScore, dealerScore);
-
-	return again;
+	return rematch(playerScore, dealerScore);
 }
 
 //Deals with the player's turn
-int playerTurn(card *deck, card *hand, int size, int *dealer)
+int playerTurn(CARD *deck, CARD *hand, int size, int *dealer)
 {
 	int playerScore;
 
@@ -145,7 +134,7 @@ int playerTurn(card *deck, card *hand, int size, int *dealer)
 	{
 		if(hitOrStay() == 's')
 		{
-			printf("\nNow the it's dealer's turn.\n");
+			printf("\nNow the it's the dealer's turn.\n");
 			
 			return score(hand, size);
 		}
@@ -168,7 +157,7 @@ int playerTurn(card *deck, card *hand, int size, int *dealer)
 }
 
 //Dealer's turn
-int dealerTurn(card *deck, card *hand, int size, int *dealer)
+int dealerTurn(CARD *deck, CARD *hand, int size, int *dealer)
 {
 	int dealerScore;
 	
@@ -178,6 +167,9 @@ int dealerTurn(card *deck, card *hand, int size, int *dealer)
 	{
 		hand[size] = deck[*dealer];
 		
+		*dealer++;
+		size++;
+
 		dealerScore = score(hand, size);
 	}
 
@@ -193,13 +185,13 @@ char hitOrStay(void)
 	{
 		printf("Would you like to hit or stay? (h/s)\n");
 		scanf("%c", &hitOrStay);
-	} while (hitOrStay != 'h' || hitOrStay != 's');
+	} while (hitOrStay != 'h' && hitOrStay != 's');
 
 	return hitOrStay;
 }
 
 //Score calculator
-int score(card *hand, int size)
+int score(CARD *hand, int size)
 {
 	int i, score = 0, aceCount = 0;
 
@@ -220,7 +212,7 @@ int score(card *hand, int size)
 }
 
 //Shows the final score for the hand and asks for a rematch
-int rematch(int playerScore, int dealerScore)
+char rematch(int playerScore, int dealerScore)
 {
 	char again;
 	
@@ -238,12 +230,12 @@ int rematch(int playerScore, int dealerScore)
 	else
 		printf("The dealer's hand total was %d.\n", dealerScore);	
 
-	printf("Would you like to play again?\n");
+	printf("Would you like to play again? (y/n)\n");
 
 	do
 	{
 		scanf("%c", &again);
-	} while (again != 'y' || again != 'n');
+	} while (again != 'y' && again != 'n');
 
 	return again;
 }

@@ -3,9 +3,11 @@
 
 int main(void)
 {
-	int done;
+	int done, dealer = 0, *dealerPointer;
+	dealerPointer = &dealer;
+
 	//Creates the deck variable
-	card deck[DECKSIZE];
+	CARD deck[DECKSIZE];
 	
 	//Generates the deck
 	deckMake(deck);
@@ -15,7 +17,7 @@ int main(void)
 
 	//Deals until the player doesn't want a rematch
 	while(done != 1)
-		done = deal(deck);
+		done = deal(deck, dealerPointer);
 
 	return 0;
 }

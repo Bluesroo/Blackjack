@@ -2,22 +2,22 @@
 #define RANKSIZE 6
 #define SUITSIZE 13
 
-//Creates the card type
+//Creates the CARD type
 typedef struct
 {
 	int value;
 	char suit[SUITSIZE];
 	char rank[RANKSIZE];
-} card;
+} CARD;
 
 //Prototypes
-void deckMake(card *);
-card newLineTrim(card);
-void deckShuffle(card *);
-int deal(card *);
-int playerTurn(card *, card *, int, int *);
-int dealerTurn(card *, card *, int, int *);
-void reshuffle(card *, int);
+void deckMake(CARD *);
+CARD newLineTrim(CARD);
+void deckShuffle(CARD *);
+int deal(CARD *, int *);
+int playerTurn(CARD *, CARD *, int, int *);
+int dealerTurn(CARD *, CARD *, int, int *);
+void reshuffle(CARD *, int);
 char hitOrStay(void);
-int score(card *, int);
-int rematch(int, int);
+int score(CARD *, int);
+char rematch(int, int);
