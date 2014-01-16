@@ -1,6 +1,8 @@
 Blackjack
 =========
 
+It's done!
+
 I'm reviving this as a fun project. I've kept the old version for posterity.
 
 Things to do better:
