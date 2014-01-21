@@ -39,7 +39,7 @@ void deckMake(CARD *deck)
 		strcpy(deck[i].rank, rank[j]);
 		strcpy(deck[i].suit, suit[k]);
 		deck[i].value = value[j];
-
+		
 		if((i + 1) % 13 == 0)
 			k++;
 		
@@ -120,7 +120,6 @@ int deal(CARD *deck, int *dealer)
 	if(playerScore > 21)
 	{
 		dealerScore = score(handDealer, countDealer);
-
 		return rematch(playerScore, dealerScore);
 	}
 	//Dealer's turn
@@ -136,7 +135,6 @@ int playerTurn(CARD *deck, CARD *hand, int size, int *dealer)
 	int playerScore;
 
 	printf("Your hand: %s %s and %s %s.\n", hand[0].rank, hand[0].suit, hand[1].rank, hand[1].suit);
-
 	while(1)
 	{
 		if(hitOrStay() == 's')
@@ -152,7 +150,6 @@ int playerTurn(CARD *deck, CARD *hand, int size, int *dealer)
 			size++;
 			*dealer += 1;
 		}
-
 		playerScore = score(hand, size);
 
 		//If there is a bust
@@ -167,7 +164,6 @@ char hitOrStay(void)
 	char hitOrStay;
 
 	printf("\nWould you like to hit or stay? (h/s)\n");
-	
 	do
 	{
 		scanf("%c", &hitOrStay);
@@ -182,9 +178,7 @@ int dealerTurn(CARD *deck, CARD *hand, int size, int *dealer)
 	int dealerScore;
 	
 	dealerScore = score(hand, size);
-
 	printf("\nNow it's the dealer's turn.\n");
-
 	while(dealerScore < 17)
 	{
 		hand[size] = deck[*dealer];
