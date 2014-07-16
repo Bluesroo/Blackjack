@@ -2,8 +2,8 @@ Blackjack
 =========
 
 There are two copies of the game in this repo:
-1. blackJackOld.c
-2. blackJack.c
+1. blackjackOld.c
+2. blackjack.c
 
 blackjackOld.c is an abomination that I made as I was first starting to learn how to program. I kept it aroun because I like looking back at it everyone once in a while.
 
