@@ -1,8 +1,4 @@
-Blackjack
-=========
+#blackjackOld
 
-My first attempt at a serious project... Things to implement for the next version, when I decide to try again:
-1. Use functions and pointers
-2. Figure out what to do when the deck runs out (how to reshuffle?)
-3. Use descriptive variable names
-4. Learn how to read/ write to a file (variables, the deck, counters?)
+This was my first attempt at something resembling a project from when I first started learning to program. It is a
+horrible abomination, but I wanted to keep a branch of it so I could look back and see where I started.
