@@ -1,6 +1,7 @@
 #Blackjack
 
-This is a CLI blackjack game. It has a very simple dealer AI and only uses 1 deck.
+This is a CLI blackjack game. It has a very simple dealer AI and only uses 1 deck. This is the second version of a
+project that I did when I first started learning programming. This version was written after my first programming class.
 
 ##Files
 ###[blackjack.c](https://github.com/Bluesroo/Blackjack/blob/master/blackjack.c)
