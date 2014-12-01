@@ -1,10 +1,14 @@
-Blackjack
-=========
+#Blackjack
 
-There are two copies of the game in this repo:
-1. blackjackOld.c
-2. blackjack.c
+This is a CLI blackjack game. It has a very simple dealer AI and only uses 1 deck.
 
-blackjackOld.c is an abomination that I made as I was first starting to learn how to program. I kept it around because I like looking back at it everyone once in a while.
-
-blackjack.c is the new(er) version that I made after taking my first real computer engineering class Fall 2013. It is significantly less awful, but it is just very basic. As you can see from the previous commits, it is from quite a while ago (relatively speaking).
+##Files
+###[blackjack.c](https://github.com/Bluesroo/Blackjack/blob/master/blackjack.c)
+This is the main entry point for the game. It sets up the deck and shuffles it for the first play.
+###[functions.c](https://github.com/Bluesroo/Blackjack/blob/master/functions.c)
+This file contains the functions that govern the actual playing of the game. e.g. Dealing the cards, AI logic, making/
+shuffling the deck, etc.
+###[prototypes.h](https://github.com/Bluesroo/Blackjack/blob/master/prototypes.h)
+Contains the defined values, defines the struct for the deck, and defines the functions that are used in the program.
+###[rank](https://github.com/Bluesroo/Blackjack/blob/master/rank), [suit](https://github.com/Bluesroo/Blackjack/blob/master/suit), and [value](https://github.com/Bluesroo/Blackjack/blob/master/value)
+These files are used for creating the deck at the beginning of the game.
